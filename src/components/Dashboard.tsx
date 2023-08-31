@@ -4,22 +4,22 @@ import { Button } from 'semantic-ui-react'
 import { Link } from 'react-router-dom';
 
 
-class Navbar extends Component {
-  state = {
-    activeItem: '',
-  };
+class Dashboard extends Component {
+//   state = {
+//     activeItem: '',
+//   };
 
-  handleItemClick = (event: React.MouseEvent<HTMLAnchorElement>, data: any) => {
-    const { name } = data;
-    this.setState({ activeItem: name });
-  };
+//   handleItemClick = (event: React.MouseEvent<HTMLAnchorElement>, data: any) => {
+//     const { name } = data;
+//     this.setState({ activeItem: name });
+//   };
 
   render() {
     // const { activeItem } = this.state;
 
     return (
       <Menu>
-        <Menu.Item header>PBA: Budgeting System</Menu.Item>
+        <Menu.Item header>PBA: Dashboard</Menu.Item>
         {/* <Menu.Item
           name='aboutUs'
           active={activeItem === 'aboutUs'}
@@ -27,13 +27,8 @@ class Navbar extends Component {
         /> */}
         <Menu.Menu position='right'>
           <Menu.Item>
-            <Link to="/signup">
-              <Button primary>Sign up</Button>
-            </Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/login">
-              <Button>Log-in</Button>
+            <Link to="/logout">
+              <Button>Logout</Button>
             </Link>
           </Menu.Item>
         </Menu.Menu>
@@ -43,4 +38,4 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default Dashboard;
