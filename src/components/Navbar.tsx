@@ -19,7 +19,12 @@ class Navbar extends Component {
 
     return (
       <Menu>
-        <Menu.Item header>PBA: Budgeting System</Menu.Item>
+          <Menu.Item header>
+            <Link to="/">
+              PBA: Budgeting System
+            </Link>
+          </Menu.Item>
+        {/* <Menu.Item header>PBA: Budgeting System</Menu.Item> */}
         {/* <Menu.Item
           name='aboutUs'
           active={activeItem === 'aboutUs'}

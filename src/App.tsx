@@ -1,24 +1,26 @@
-import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
-// import { Routes, Route } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 
-import SignupForm from './components/Signup';
+// import { Routes, Route } from 'react-router-dom';
 import { Container } from 'semantic-ui-react'
 import Navbar from './components/Navbar';
+
+// import Navbar from '../components/Navbar';
+import SignupForm from './components/Signup';
 import LoginForm from './components/Login';
 import Dashboard from './components/Dashboard';
+import LandingPage from './components/Landing';
 
 
-function App() {
-  return (
+
+const App = () => (
     <>
       <Router>
         <Container style={{ marginTop: '3em' }}>
-          <Navbar></Navbar>
+            <Navbar/>
           <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/dashboard" element={<Dashboard />} />
@@ -26,7 +28,6 @@ function App() {
         </Container>
       </Router>
     </>
-  );
-}
+)
 
-export default App;
+export default App
