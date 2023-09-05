@@ -1,33 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
-// import { Routes, Route } from 'react-router-dom';
-import { Container } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react';
+
 import Navbar from './components/Navbar';
-
-// import Navbar from '../components/Navbar';
 import SignupForm from './components/Signup';
 import LoginForm from './components/Login';
 import Dashboard from './components/Dashboard';
 import LandingPage from './components/Landing';
 
+const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-const App = () => (
+  return (
     <>
       <Router>
         <Container style={{ marginTop: '3em' }}>
-            <Navbar/>
+        {!isLoggedIn && <Navbar />} {/* Conditionally render Navbar */}
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/signup" element={<SignupForm />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} />
+
+            <Route path="/login" element={isLoggedIn ? <Navigate to="/dashboard" /> : <LoginForm setIsLoggedIn={setIsLoggedIn}/>}
+            />
+            <Route path="/dashboard" element={isLoggedIn ? <Dashboard setIsLoggedIn={setIsLoggedIn}/> : <Navigate to="/login" />}
+            />
           </Routes>
         </Container>
       </Router>
     </>
-)
+  );
+};
 
-export default App
+export default App;

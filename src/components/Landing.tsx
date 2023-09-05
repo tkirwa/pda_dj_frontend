@@ -1,15 +1,38 @@
-import React from 'react'
-import { Header, Image } from 'semantic-ui-react'
+import React from 'react';
+import { Image } from 'semantic-ui-react';
+// import { Header } from 'semantic-ui-react';
 
 const LandingPage = () => (
-  <div style={{position: 'relative'}}>
-    <Image src='https://img.freepik.com/free-photo/top-view-budget-written-note-notepad-with-pen-dark-surface-student-color-school-money-gray-college-copybook_179666-19729.jpg?w=2000' style={{width: '100%', height: 'auto'}}/>
-    <div style={{position: 'absolute', top: '10%', left: '10%', color: 'white'}}>
-      <h1>Convenience of Personal Budgeting System!</h1>
-      <Header as='h4'>Welcome to Budgeting System</Header>
-      <p>This is where you can see some information about the app.</p>
+  <div style={{ position: 'relative' }}>
+    <Image
+      src='https://img.freepik.com/free-photo/top-view-budget-written-note-notepad-with-pen-dark-surface-student-color-school-money-gray-college-copybook_179666-19729.jpg?w=2000'
+      style={{ width: '100%', height: 'auto' }}
+    />
+    <div
+      style={{
+        position: 'absolute',
+        top: '10%',
+        left: '10%',
+        color: 'white',
+        zIndex: 1, // Ensure it's on top of the image
+      }}
+    >
+      <h1>Personal Budgeting with Convenience</h1>
+      <h4>Welcome to Budgeting System</h4>
     </div>
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'black',
+        opacity: 0.75,
+        zIndex: 0, // Place the layer behind the content
+      }}
+    />
   </div>
-)
+);
 
-export default LandingPage
+export default LandingPage;
