@@ -44,7 +44,7 @@ function AddExpenseModal() {
             />
           </Form.Field>
           <Form.Field>
-            <Label>Expense Category</Label>
+            <Header>Expense Category</Header>
             <Dropdown
               placeholder="Select Category"
               selection
