@@ -79,4 +79,4 @@ export const INCOMES = [
 ]
 
 
-export const API_BASE_URL = 'http://34.204.95.241:8000/';
+export const API_BASE_URL = 'http://api.realmigo.tech/';
