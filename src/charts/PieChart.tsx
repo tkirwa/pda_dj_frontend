@@ -1,38 +1,57 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React from "react";
+// import { Pie } from "react-chartjs-2";
+// import { Expense } from "../models/models";
 
-interface PieChartProps {
-  data: any; // Use a more general type for data
-}
+// interface PieChartProps {
+//   expenses: Expense[]; // You can adjust the type as per your data structure
+// }
 
-const PieChart: React.FC<PieChartProps> = ({ data }) => {
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
+// const PieChart: React.FC<PieChartProps> = ({ expenses }) => {
+//   // Calculate total expense amount
+//   const totalExpense = expenses.reduce(
+//     (total, expense) => total + parseFloat(expense.amount),
+//     0
+//   );
 
-  useEffect(() => {
-    const ctx = chartRef.current?.getContext('2d');
-    if (ctx) {
-      const chartInstance = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        },
-      });
+//   // Extract categories and calculate their percentages
+//   const categories = [...new Set(expenses.map((expense) => expense.category))];
+//   const data = categories.map((category) => {
+//     const categoryExpenses = expenses.filter(
+//       (expense) => expense.category === category
+//     );
+//     const categoryTotal = categoryExpenses.reduce(
+//       (total, expense) => total + parseFloat(expense.amount),
+//       0
+//     );
+//     return {
+//       category,
+//       percentage: ((categoryTotal / totalExpense) * 100).toFixed(2),
+//     };
+//   });
 
-      return () => {
-        // Ensure the chart is destroyed when the component unmounts
-        chartInstance.destroy();
-      };
-    }
-  }, [data]);
+//   // Create data for the chart
+//   const chartData = {
+//     labels: data.map((item) => item.category),
+//     datasets: [
+//       {
+//         data: data.map((item) => item.percentage),
+//         backgroundColor: [
+//           "rgba(255, 99, 132, 0.6)",
+//           "rgba(54, 162, 235, 0.6)",
+//           "rgba(255, 206, 86, 0.6)",
+//           "rgba(75, 192, 192, 0.6)",
+//           "rgba(153, 102, 255, 0.6)",
+//         ],
+//       },
+//     ],
+//   };
 
-  return (
-    <div>
-      <h2>Income Categories (Pie Chart)</h2>
-      <canvas ref={chartRef} />
-    </div>
-  );
-};
+//   return (
+//     <div className="chart-container">
+//       <h2 style={{ textAlign: "center" }}>Expense Pie Chart</h2>
+//       <Pie data={chartData} />
+//     </div>
+//   );
+// };
 
-export default PieChart;
+// export default PieChart;

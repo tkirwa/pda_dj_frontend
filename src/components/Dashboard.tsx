@@ -7,8 +7,8 @@ import ExpenseList from './ExpenseList';
 import IncomeList from './IncomeList';
 import Overview from './Overview';
 
-import { EXPENSES } from './api-data-service';
-import { INCOMES } from './api-data-service';
+// import { EXPENSES } from './api-data-service';
+// import { INCOMES } from './api-data-service';
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
@@ -61,19 +61,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-
-    // Assuming EXPENSES is an array of expenses with string amount values
-  const expensesWithNumberAmount = EXPENSES.map((expense) => ({
-    ...expense,
-    amount: parseFloat(expense.amount), // Convert the amount to a number
-  }));
-
-  // Assuming INCOMES is an array of incomes with string amount values
-  const incomesWithNumberAmount = INCOMES.map((income) => ({
-    ...income,
-    amount: parseFloat(income.amount), // Convert the amount to a number
-  }));
-
   return (
     <>
       <Menu>
@@ -94,7 +81,7 @@ const Dashboard: React.FC = () => {
           </Menu.Item>
         </Menu.Menu>
       </Menu>
-      {!showOverview && <Overview expenses={expensesWithNumberAmount} incomes={incomesWithNumberAmount}/>}
+      {!showOverview && <Overview/>}
       <ExpenseList />
       <IncomeList/>
     </>

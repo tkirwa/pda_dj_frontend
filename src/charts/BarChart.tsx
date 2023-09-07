@@ -1,38 +1,41 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React from "react";
+// import { Bar } from "react-chartjs-2";
 
-interface BarChartProps {
-  data: any; // Use a more general type for data
-}
+// interface BarChartProps {
+//   expenses: any[]; // You can adjust the type as per your data structure
+// }
 
-const BarChart: React.FC<BarChartProps> = ({ data }) => {
-  const chartRef = useRef<HTMLCanvasElement | null>(null);
+// const BarChart: React.FC<BarChartProps> = ({ expenses }) => {
+//   // Extract data from expenses for the chart
+//   const data = {
+//     labels: expenses.map((expense) => expense.name),
+//     datasets: [
+//       {
+//         label: "Expense Amount",
+//         backgroundColor: "rgba(75, 192, 192, 0.6)",
+//         borderColor: "rgba(75, 192, 192, 1)",
+//         borderWidth: 1,
+//         hoverBackgroundColor: "rgba(75, 192, 192, 0.8)",
+//         hoverBorderColor: "rgba(75, 192, 192, 1)",
+//         data: expenses.map((expense) => parseFloat(expense.amount)),
+//       },
+//     ],
+//   };
 
-  useEffect(() => {
-    const ctx = chartRef.current?.getContext('2d');
-    if (ctx) {
-      const chartInstance = new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-        },
-      });
+//   const options = {
+//     scales: {
+//       y: {
+//         beginAtZero: true,
+//       },
+//     },
+//   };
 
-      return () => {
-        // Ensure the chart is destroyed when the component unmounts
-        chartInstance.destroy();
-      };
-    }
-  }, [data]);
+//   return (
+//     <div className="chart-container">
+//       <h2 style={{ textAlign: "center" }}>Expense Bar Chart</h2>
+//       <Bar data={data} options={options} />
+//     </div>
+//   );
+// };
 
-  return (
-    <div>
-      <h2>Expenses by Category (Bar Chart)</h2>
-      <canvas ref={chartRef} />
-    </div>
-  );
-};
-
-export default BarChart;
+// export default BarChart;
