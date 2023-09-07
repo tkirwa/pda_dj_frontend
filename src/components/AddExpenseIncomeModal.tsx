@@ -5,7 +5,7 @@ interface AddExpenseModalProps {
   onClose: () => void;
 }
 
-const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ onClose }) => {
+const AddExpenseIncomeModal: React.FC<AddExpenseModalProps> = ({ onClose }) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -130,4 +130,4 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({ onClose }) => {
   );
 };
 
-export default AddExpenseModal;
+export default AddExpenseIncomeModal;

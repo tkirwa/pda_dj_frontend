@@ -25,34 +25,34 @@ const LoginForm: React.FC = () => {
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
-
+  
     // Reset previous error messages
     setUsernameError('');
     setPasswordError('');
-
+  
     if (!username) {
       setUsernameError('Username is required.'); // Set the username error message
     }
-
+  
     if (!password) {
       setPasswordError('Password is required.'); // Set the password error message
     }
-
+  
     if (!username || !password) {
       console.error('Username and password are required.');
       return;
     }
-
+  
     try {
       const response = await axios.post(`${API_BASE_URL}/accounts/login/`, {
         username,
         password,
       });
-
+  
       if (response.data && response.data.token) {
         console.log('Login successful:', response.data);
         const token = response.data.token;
-
+  
         if (rememberMe) {
           // Store token in localStorage if "Remember Me" is checked
           localStorage.setItem('authToken', token);
@@ -60,10 +60,10 @@ const LoginForm: React.FC = () => {
           // Otherwise, store it in sessionStorage
           sessionStorage.setItem('authToken', token);
         }
-
+  
         setLoginMessage('Login successful');
         setLoginSuccess(true);
-
+  
         // Redirect to /dashboard on successful login
         navigate('/dashboard');
       } else {
@@ -76,8 +76,11 @@ const LoginForm: React.FC = () => {
       setLoginMessage('Login error');
       setLoginSuccess(false);
     }
+  
+    // Add this line to navigate to /dashboard even if "Remember Me" is not checked
+    navigate('/dashboard');
   };
-
+  
   return (
     <div>
       <Label><h4>PBA :: Login</h4></Label>

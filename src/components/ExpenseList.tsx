@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Table } from 'semantic-ui-react';
-import AddExpenseModal from './AddExpenseModal';
+import { Button, Pagination, Table } from 'semantic-ui-react';
 import Loading from './Loading';
 
 interface Expense {
@@ -17,12 +16,28 @@ const API_BASE_URL = 'http://127.0.0.1:8000';
 const ExpenseList: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAddExpenseModalOpen, setIsAddExpenseModalOpen] = useState(false);
 
-  const centerTextStyles = {
-    textAlign: 'center',
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(5);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentExpenses = expenses.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(expenses.length / itemsPerPage);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
+  const paginationControls = (
+    <Pagination
+      activePage={currentPage}
+      totalPages={totalPages}
+      onPageChange={(e, { activePage }) => handlePageChange(activePage as number)}
+    />
+  );
+  
   useEffect(() => {
     const authToken =
       localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
@@ -43,15 +58,6 @@ const ExpenseList: React.FC = () => {
       });
   }, []);
 
-  // Function to open the modal directly on button click
-  const openAddExpenseModal = () => {
-    setIsAddExpenseModalOpen(true);
-  };
-
-  // Function to close the modal
-  const closeAddExpenseModal = () => {
-    setIsAddExpenseModalOpen(false);
-  };
 
   return (
     <>
@@ -61,14 +67,8 @@ const ExpenseList: React.FC = () => {
         <Table inverted color="blue">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan="4" style={centerTextStyles}>
-                {/* Open the AddExpenseModal directly on button click */}
-                <Button
-                  style={{ color: '#28CE45' }}
-                  onClick={openAddExpenseModal}
-                >
-                  Add Expense
-                </Button>
+            <Table.HeaderCell colSpan="4" style={{ backgroundColor: '#1B67AA', color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+                Expenditure :: Expense Sources
               </Table.HeaderCell>
             </Table.Row>
             <Table.Row>
@@ -79,7 +79,7 @@ const ExpenseList: React.FC = () => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {expenses.map((expense) => (
+            {currentExpenses.map((expense) => (
               <Table.Row key={expense.id}>
                 <Table.Cell>{expense.name}</Table.Cell>
                 <Table.Cell>{expense.category}</Table.Cell>
@@ -104,10 +104,7 @@ const ExpenseList: React.FC = () => {
           </Table.Body>
         </Table>
       )}
-      {/* Render the AddExpenseModal component */}
-      {isAddExpenseModalOpen && (
-        <AddExpenseModal onClose={closeAddExpenseModal} />
-      )}
+      {paginationControls}
     </>
   );
 };
