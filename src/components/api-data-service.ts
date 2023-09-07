@@ -77,3 +77,6 @@ export const INCOMES = [
         "user": "http://127.0.0.1:8000/api/v1/users/1/"
     }
 ]
+
+
+export const API_BASE_URL = 'http://34.204.95.241:8000/';

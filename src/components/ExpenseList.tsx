@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Pagination, Table } from 'semantic-ui-react';
 import Loading from './Loading';
+import { API_BASE_URL } from './api-data-service';
 
 interface Expense {
   id: number;
@@ -11,7 +12,7 @@ interface Expense {
   date: string;
 }
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const apiBaseURL = API_BASE_URL
 
 const ExpenseList: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -43,7 +44,7 @@ const ExpenseList: React.FC = () => {
       localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
     axios
-      .get<Expense[]>(`${API_BASE_URL}/api/v1/expenses/`, {
+      .get<Expense[]>(`${apiBaseURL}/api/v1/expenses/`, {
         headers: {
           Authorization: `Token ${authToken}`,
         },

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Form, Icon, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from './api-data-service';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const apiBaseURL = API_BASE_URL;
 
 const LoginForm: React.FC = () => {
 
@@ -44,7 +45,7 @@ const LoginForm: React.FC = () => {
     }
   
     try {
-      const response = await axios.post(`${API_BASE_URL}/accounts/login/`, {
+      const response = await axios.post(`${apiBaseURL}/accounts/login/`, {
         username,
         password,
       });

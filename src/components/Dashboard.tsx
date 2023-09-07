@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import ExpenseList from './ExpenseList';
 import IncomeList from './IncomeList';
 import Overview from './Overview';
-
+import { API_BASE_URL } from './api-data-service';
 // import { EXPENSES } from './api-data-service';
 // import { INCOMES } from './api-data-service';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const apiBaseURL = API_BASE_URL;
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
       };
 
       // Make the DELETE request to the logout endpoint with the token in the headers
-      const response = await axios.delete(`${API_BASE_URL}/accounts/logout/`, {
+      const response = await axios.delete(`${apiBaseURL}/accounts/logout/`, {
         headers,
       });
 

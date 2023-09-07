@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Pagination, Table } from 'semantic-ui-react';
 import Loading from './Loading';
+import { API_BASE_URL } from './api-data-service';
 
 interface Income {
   id: number;
@@ -11,7 +12,8 @@ interface Income {
   date: string;
 }
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const apiBaseURL = API_BASE_URL;
+
 
 const IncomeList: React.FC = () => {
   const [incomes, setIncomes] = useState<Income[]>([]);
@@ -44,7 +46,7 @@ const IncomeList: React.FC = () => {
       localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
 
     axios
-      .get<Income[]>(`${API_BASE_URL}/api/v1/incomes/`, {
+      .get<Income[]>(`${apiBaseURL}/api/v1/incomes/`, {
         headers: {
           Authorization: `Token ${authToken}`,
         },

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form, Input, Dropdown, Label } from 'semantic-ui-react';
+import { API_BASE_URL } from './api-data-service';
 
 interface AddExpenseModalProps {
   onClose: () => void;
@@ -13,10 +14,9 @@ const AddExpenseIncomeModal: React.FC<AddExpenseModalProps> = ({ onClose }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  const API_BASE_URL = 'http://127.0.0.1:8000';
-
+  const apiBaseURL = API_BASE_URL;
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/v1/expense-categories/`)
+    fetch(`${apiBaseURL}/api/v1/expense-categories/`)
       .then((response) => response.json())
       .then((data) => {
         const categoryOptions = data.map((category: { id: number; name: string }) => ({

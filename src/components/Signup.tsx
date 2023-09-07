@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Form, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom'; // Use useNavigate instead
+import { API_BASE_URL } from './api-data-service';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+const apiBaseURL = API_BASE_URL;
+
 
 const SignupForm = () => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -22,7 +24,7 @@ const SignupForm = () => {
     }
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/accounts/register/`, {
+      const response = await axios.post(`${apiBaseURL}/accounts/register/`, {
         username,
         password,
       });
