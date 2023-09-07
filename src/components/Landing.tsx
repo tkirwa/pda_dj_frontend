@@ -1,9 +1,11 @@
 import React from 'react';
 import { Image } from 'semantic-ui-react';
+import Footer from './Footer';
 // import { Header } from 'semantic-ui-react';
 
 const LandingPage = () => (
-  <div style={{ position: 'relative' }}>
+  <>
+      <div style={{ position: 'relative' }}>
     <Image
       src='https://img.freepik.com/free-photo/top-view-budget-written-note-notepad-with-pen-dark-surface-student-color-school-money-gray-college-copybook_179666-19729.jpg?w=2000'
       style={{ width: '100%', height: 'auto' }}
@@ -33,6 +35,10 @@ const LandingPage = () => (
       }}
     />
   </div>
+
+  <Footer/>
+
+  </>
 );
 
 export default LandingPage;

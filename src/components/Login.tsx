@@ -1,37 +1,42 @@
-// import React, { useState, useEffect } from 'react';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Form, Label } from 'semantic-ui-react';
+import { Button, Form, Icon, Label } from 'semantic-ui-react';
 import { useNavigate } from 'react-router-dom';
-
-// Define the interface for props
-interface LoginFormProps {
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
-}
 
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
-const LoginForm: React.FC<LoginFormProps> = ({ setIsLoggedIn }) => {
+const LoginForm: React.FC = () => {
+
   const navigate = useNavigate(); // Initialize useNavigate
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loginMessage, setLoginMessage] = useState('');
   const [loginSuccess, setLoginSuccess] = useState(false);
 
+  const [usernameError, setUsernameError] = useState(''); // Error message for username
+  const [passwordError, setPasswordError] = useState(''); // Error message for password
 
-  // useEffect(() => {
-  //   const authToken = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    
-  //   if (authToken) {
-  //     navigate('/dashboard');
-  //   }
-  // }, [navigate]); // Ensure this effect runs only when navigate changes
-  
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleLogin = async (e: any) => {
     e.preventDefault();
+
+    // Reset previous error messages
+    setUsernameError('');
+    setPasswordError('');
+
+    if (!username) {
+      setUsernameError('Username is required.'); // Set the username error message
+    }
+
+    if (!password) {
+      setPasswordError('Password is required.'); // Set the password error message
+    }
 
     if (!username || !password) {
       console.error('Username and password are required.');
@@ -58,9 +63,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ setIsLoggedIn }) => {
 
         setLoginMessage('Login successful');
         setLoginSuccess(true);
-        setIsLoggedIn(true); // Set isLoggedIn to true upon successful login
-        // Redirect to dashboard or another page upon successful login
-        navigate('/dashboard'); // Redirect to the login page using useNavigate
+
+        // Redirect to /dashboard on successful login
+        navigate('/dashboard');
       } else {
         console.error('Login failed:', response.data.Message);
         setLoginMessage('Login failed');
@@ -90,16 +95,30 @@ const LoginForm: React.FC<LoginFormProps> = ({ setIsLoggedIn }) => {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
+          <p style={{ color: 'red' }}>{usernameError}</p>
         </Form.Field>
         <Form.Field>
           <label>Password</label>
           <input
-            type='password'
+            type={showPassword ? 'text' : 'password'}
             placeholder='Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <Icon
+            name={showPassword ? 'eye slash' : 'eye'}
+            link
+            onClick={togglePasswordVisibility}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: '10px', // Adjust this value to adjust the icon's position
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+            }}
+          />
+          <label style={{ color: 'red' }}>{passwordError}</label>
         </Form.Field>
         <Form.Field>
           <input
