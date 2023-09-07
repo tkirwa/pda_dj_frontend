@@ -79,4 +79,4 @@ export const INCOMES = [
 ]
 
 
-export const API_BASE_URL = 'http://api.realmigo.tech/';
+export const API_BASE_URL = 'http://api.realmigo.tech';
