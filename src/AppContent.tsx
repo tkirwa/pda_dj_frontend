@@ -1,6 +1,6 @@
 // import React from 'react';
 import React from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 // import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import LandingPage from './components/Landing';
@@ -13,14 +13,14 @@ import Dashboard from './components/Dashboard';
 const AppContent: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => {
   
   const location = useLocation(); // Get the current route location
-  // const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const isDashboardRoute = location.pathname === '/dashboard';
 
   // Redirect to /dashboard if isAuthenticated is true and user visits /
-  // if (isAuthenticated && location.pathname === '/') {
-  //   navigate('/dashboard');
-  // }
+  if (isAuthenticated && location.pathname === '/') {
+    navigate('/dashboard');
+  }
 
   return (
     <div>
