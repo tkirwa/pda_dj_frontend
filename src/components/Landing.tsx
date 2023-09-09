@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image } from 'semantic-ui-react';
 import Footer from './Footer';
+import AboutSection from './About';
 // import { Header } from 'semantic-ui-react';
 
 const LandingPage = () => (
@@ -36,6 +37,7 @@ const LandingPage = () => (
     />
   </div>
 
+    <AboutSection/>
   <Footer/>
 
   </>
