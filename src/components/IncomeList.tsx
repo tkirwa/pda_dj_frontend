@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Pagination, Table } from 'semantic-ui-react';
+import { Icon, Button, Pagination, Table } from 'semantic-ui-react';
 import Loading from './Loading';
 import { API_BASE_URL } from './api-data-service';
 
@@ -91,7 +91,7 @@ const IncomeList: React.FC = () => {
                   <Button
                     style={{ color: '#FFC300' }}
                   >
-                    Edit
+                    <Icon name="edit" />
                   </Button>
                   <Button
                     style={{
@@ -99,7 +99,7 @@ const IncomeList: React.FC = () => {
                       cursor: 'pointer',
                     }}
                   >
-                    Delete
+                    <Icon name="trash alternate outline" />
                   </Button>
                 </Table.Cell>
               </Table.Row>

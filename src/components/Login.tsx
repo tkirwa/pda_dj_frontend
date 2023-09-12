@@ -1,136 +1,144 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Button, Form, Icon, Label } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from './api-data-service';
+import React, { useState } from "react";
+import axios from "axios";
+import { Button, Form, Icon, Label } from "semantic-ui-react";
+import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "./api-data-service";
 
 const apiBaseURL = API_BASE_URL;
 
 const LoginForm: React.FC = () => {
-
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  // State variables to store user input and error messages
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [loginMessage, setLoginMessage] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [usernameError, setUsernameError] = useState(""); // Error message for username
+  const [passwordError, setPasswordError] = useState(""); // Error message for password
 
-  const [usernameError, setUsernameError] = useState(''); // Error message for username
-  const [passwordError, setPasswordError] = useState(''); // Error message for password
-
+  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  // Function to handle user login
   const handleLogin = async (e: any) => {
     e.preventDefault();
-  
+
     // Reset previous error messages
-    setUsernameError('');
-    setPasswordError('');
-  
+    setUsernameError("");
+    setPasswordError("");
+
+    // Clear any pre-existing tokens in localStorage and sessionStorage
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+
+    // Validate username and password inputs
     if (!username) {
-      setUsernameError('Username is required.'); // Set the username error message
+      setUsernameError("Username is required."); // Set the username error message
     }
-  
+
     if (!password) {
-      setPasswordError('Password is required.'); // Set the password error message
+      setPasswordError("Password is required."); // Set the password error message
     }
-  
+
     if (!username || !password) {
-      console.error('Username and password are required.');
+      console.error("Username and password are required.");
       return;
     }
-  
+
     try {
+      // Send a POST request to the login API endpoint
       const response = await axios.post(`${apiBaseURL}/accounts/login/`, {
         username,
         password,
       });
-  
+
       if (response.data && response.data.token) {
-        console.log('Login successful:', response.data);
+        // Successful login
+        console.log(response.data);
         const token = response.data.token;
-  
+
         if (rememberMe) {
-          // Store token in localStorage if "Remember Me" is checked
-          localStorage.setItem('authToken', token);
+          // Store the authentication token in localStorage
+          localStorage.setItem("authToken", token);
         } else {
-          // Otherwise, store it in sessionStorage
-          sessionStorage.setItem('authToken', token);
+          // Store the authentication token in sessionStorage
+          sessionStorage.setItem("authToken", token);
         }
-  
-        setLoginMessage('Login successful');
-        setLoginSuccess(true);
-  
-        // Redirect to /dashboard on successful login
-        navigate('/dashboard');
+
+        // Navigate to the dashboard page upon successful login
+        navigate("/dashboard", { replace: true });
       } else {
-        console.error('Login failed:', response.data.Message);
-        setLoginMessage('Login failed');
-        setLoginSuccess(false);
+        // Login failed
+        console.error("Login failed:", response.data.Message);
+        setUsernameError("Login failed"); // Display an error message
       }
     } catch (error: any) {
-      console.error('Login error', error);
-      setLoginMessage('Login error');
-      setLoginSuccess(false);
+      // Handle login error
+      console.error("Login error", error);
+      setUsernameError("Login error"); // Display an error message
     }
-  
-    // Add this line to navigate to /dashboard even if "Remember Me" is not checked
-    navigate('/dashboard');
   };
-  
+
   return (
     <div>
-      <Label><h4>PBA :: Login</h4></Label>
-      {loginSuccess ? (
-        <p style={{ color: 'green' }}>{loginMessage}</p>
-      ) : (
-        <p style={{ color: 'red' }}>{loginMessage}</p>
-      )}
+      <Label>
+        <h4>PBA :: Login</h4>
+      </Label>
       <Form>
         <Form.Field>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <input
-            placeholder='Username'
+            id="username"
+            name="username"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          <p style={{ color: 'red' }}>{usernameError}</p>
+          <p style={{ color: "red" }}>{usernameError}</p>
         </Form.Field>
         <Form.Field>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder='Password'
+            id="password"
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <Icon
-            name={showPassword ? 'eye slash' : 'eye'}
+            name={showPassword ? "eye slash" : "eye"}
             link
             onClick={togglePasswordVisibility}
             style={{
-              position: 'absolute',
-              top: '50%',
-              right: '10px', // Adjust this value to adjust the icon's position
-              transform: 'translateY(-50%)',
-              cursor: 'pointer',
+              position: "absolute",
+              top: "50%",
+              right: "10px", // Adjust this value to fine-tune the icon's horizontal position
+              cursor: "pointer",
             }}
           />
-          <label style={{ color: 'red' }}>{passwordError}</label>
+          <label htmlFor="password" style={{ color: "red" }}>
+            {passwordError}
+          </label>
         </Form.Field>
         <Form.Field>
-          <input
-            type='checkbox'
-            checked={rememberMe}
-            onChange={() => setRememberMe(!rememberMe)}
-          /><label>Remember Me</label>
+          <div className="ui checkbox">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+            />
+            <label htmlFor="rememberMe">Remember Me</label>
+          </div>
         </Form.Field>
+
         <Button onClick={handleLogin}>Login</Button>
       </Form>
     </div>

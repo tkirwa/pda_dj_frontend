@@ -46,7 +46,9 @@ const AboutSection: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <Label.Group>
+        <Label.Group
+          
+          >
           {skillsets.map((skill, index) => (
             <Label key={index} color="green">
               {skill}
