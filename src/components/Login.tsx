@@ -75,6 +75,8 @@ const LoginForm: React.FC = () => {
         console.error("Login failed:", response.data.Message);
         setUsernameError("Login failed"); // Display an error message
       }
+
+      navigate("/dashboard", { replace: true });
     } catch (error: any) {
       // Handle login error
       console.error("Login error", error);
