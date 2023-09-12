@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
   useLocation,
-  useNavigate,
+//   useNavigate,
 } from "react-router-dom";
 // import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from "./components/Navbar";
@@ -15,19 +15,21 @@ import LoginForm from "./components/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Dashboard from "./components/Dashboard";
 
+interface AppContentProps {
+  isAuthenticated: boolean;
+}
+
 // Create a separate component for the content that uses useLocation
-const AppContent: React.FC<{ isAuthenticated: boolean }> = ({
-  isAuthenticated,
-}) => {
+const AppContent: React.FC<AppContentProps> = ({ isAuthenticated }) => {
   const location = useLocation(); // Get the current route location
-  const navigate = useNavigate(); // Initialize useNavigate
+  // const navigate = useNavigate(); // Initialize useNavigate
 
   const isDashboardRoute = location.pathname === "/dashboard";
 
   // Redirect to /dashboard if isAuthenticated is true and user visits /
-  if (isAuthenticated && location.pathname === "/") {
-    navigate("/dashboard");
-  }
+  //   if (isAuthenticated && location.pathname === "/login") {
+  //     navigate("/dashboard");
+  //   }
 
   return (
     <div>

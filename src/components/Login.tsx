@@ -6,8 +6,17 @@ import { API_BASE_URL } from "./api-data-service";
 
 const apiBaseURL = API_BASE_URL;
 
+const authTokenLocalStorage = localStorage.getItem("authToken");
+const authTokenSessionStorage = sessionStorage.getItem("authToken");
+
+const isAuthenticatedInitially =
+  !!authTokenLocalStorage || !!authTokenSessionStorage;
+
 const LoginForm: React.FC = () => {
   const navigate = useNavigate(); // Initialize useNavigate
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    isAuthenticatedInitially
+  );
 
   // State variables to store user input and error messages
   const [username, setUsername] = useState("");
@@ -59,6 +68,7 @@ const LoginForm: React.FC = () => {
         // Successful login
         console.log(response.data);
         const token = response.data.token;
+        setIsAuthenticated(true);
 
         if (rememberMe) {
           // Store the authentication token in localStorage
@@ -66,6 +76,8 @@ const LoginForm: React.FC = () => {
         } else {
           // Store the authentication token in sessionStorage
           sessionStorage.setItem("authToken", token);
+          // Navigate to the dashboard page upon successful login
+          navigate("/dashboard", { replace: true });
         }
 
         // Navigate to the dashboard page upon successful login
@@ -76,7 +88,9 @@ const LoginForm: React.FC = () => {
         setUsernameError("Login failed"); // Display an error message
       }
 
-      navigate("/dashboard", { replace: true });
+      if (isAuthenticated) {
+        navigate("/dashboard", { replace: true });
+      }
     } catch (error: any) {
       // Handle login error
       console.error("Login error", error);

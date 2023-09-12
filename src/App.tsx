@@ -5,7 +5,6 @@ import { Container } from "semantic-ui-react";
 
 import AppContent from "./AppContent";
 
-const App: React.FC = () => {
   // Check if the authentication token exists in localStorage
   const authTokenLocalStorage = localStorage.getItem("authToken");
 
@@ -14,6 +13,8 @@ const App: React.FC = () => {
 
   // Use one of the tokens (localStorage takes precedence) if it exists
   const isAuthenticated = !!authTokenLocalStorage || !!authTokenSessionStorage;
+
+const App: React.FC = () => {
   return (
     <Router>
       <Container style={{ marginTop: "3em" }}>
