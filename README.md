@@ -12,6 +12,13 @@ PBA (Personal Budget Assistant) is a web-based budget management system that hel
 
 ![PBA Screenshot](https://raw.githubusercontent.com/tkirwa/pda_dj_frontend/main/src/assets/images/pda_screenshot_2023_09_13_11_03_48.png)
 
+## Technologies Used
+
+- React JS
+- TypeScript
+- Chart.js
+- Semantic UI
+  
 ## Installation
 
 ### Backend - PBA Budget System API (Django + DJRF + PostgreSQL)
