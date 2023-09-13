@@ -8,7 +8,7 @@ PBA (Personal Budget Assistant) is a web-based budget management system that hel
 - **Backend:** [PBA Budget System API (Django)](https://api.realmigo.tech/admin/)
 - **Author's LinkedIn:** [Tonny Kirwa](https://www.linkedin.com/in/tonny-kirwa-957ba0104/)
 
-**Final Project Blog Article**: [Link to Blog Article](https://www.example.com/blog)
+**Final Project Blog Article**: [Link to Blog Article]([https://www.example.com/blog](https://www.linkedin.com/pulse/pba-personal-budget-assistant-tonny-kirwa))
 
 ![PBA Screenshot](https://raw.githubusercontent.com/tkirwa/pda_dj_frontend/main/src/assets/images/pda_screenshot_2023_09_13_11_03_48.png)
 
