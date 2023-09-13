@@ -1,13 +1,10 @@
-// import React from 'react';
 import React from "react";
 import {
   Routes,
   Route,
   Navigate,
   useLocation,
-//   useNavigate,
 } from "react-router-dom";
-// import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import LandingPage from "./components/Landing";
 import SignupForm from "./components/Signup";
@@ -22,14 +19,13 @@ interface AppContentProps {
 // Create a separate component for the content that uses useLocation
 const AppContent: React.FC<AppContentProps> = ({ isAuthenticated }) => {
   const location = useLocation(); // Get the current route location
-  // const navigate = useNavigate(); // Initialize useNavigate
 
   const isDashboardRoute = location.pathname === "/dashboard";
 
-  // Redirect to /dashboard if isAuthenticated is true and user visits /
-  //   if (isAuthenticated && location.pathname === "/login") {
-  //     navigate("/dashboard");
-  //   }
+  // Redirect to /dashboard if isAuthenticated is true and user visits / or /login
+  if (isAuthenticated && (location.pathname === "/" || location.pathname === "/login")) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <div>
