@@ -89,6 +89,37 @@ The backend API should now be running at `http://localhost:8000/`.
 
 The frontend application should now be running at `http://localhost:3000/`.
 
+## Get Started
+![enter image description here](https://raw.githubusercontent.com/tkirwa/pda_dj_frontend/main/src/assets/images/dashboard_screenshot_2023_09_13_16_10_00.png)
+To experience the Personal Budget Management System - PDA System, follow these steps:
+
+1. Visit the project landing page at [realmigo.tech](https://www.realmigo.tech/) to access the application.
+
+2. Sign Up:
+   - Click on the "Sign Up" button to create a new account.
+   - Fill in the required registration details.
+   - After successfully registering, you will be automatically redirected to the login page.
+
+3. Log In:
+   - On the login page, enter your registered credentials.
+   - Upon successful login, you will be redirected to the dashboard page.
+
+4. Dashboard:
+   - The dashboard is your central hub for managing your finances.
+   - Here, you can add, edit, and delete expenses, incomes, and more.
+   - Explore the various features and tools available to track and optimize your financial journey.
+
+Please feel free to explore the application and make use of its features to gain control over your finances effectively.
+
+---
+
+For more details and the source code, visit the project repositories:
+- [Frontend Repository](https://github.com/tkirwa/pda_dj_frontend)
+- [Backend Repository](https://github.com/tkirwa/pba_dj_backend)
+
+Connect with me on [LinkedIn](https://www.linkedin.com/in/tonny-kirwa-957ba0104/) to discuss this project or any other exciting opportunities or ideas!
+
+
 ## Usage
 
 - Open the PBA Budget System frontend in your browser.
