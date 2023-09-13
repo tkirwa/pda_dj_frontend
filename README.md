@@ -14,12 +14,12 @@ PBA (Personal Budget Assistant) is a web-based budget management system that hel
 
 ## Installation
 
-### Backend - PBA Budget System API
+### Backend - PBA Budget System API (Django + DJRF + PostgreSQL)
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/pba-backend.git
+   git clone https://github.com/tkirwa/pba_dj_backend.git
    cd pba-backend
    ```
 
@@ -58,12 +58,12 @@ PBA (Personal Budget Assistant) is a web-based budget management system that hel
 
 The backend API should now be running at `http://localhost:8000/`.
 
-### Frontend - PBA Budget System
+### Frontend - PBA Budget System (React JS)
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/pba-frontend.git
+   git clone https://github.com/tkirwa/pda_dj_frontend.git
    cd pba-frontend
    ```
 
