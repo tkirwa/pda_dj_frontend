@@ -1,17 +1,13 @@
-// Overview.tsx
 import React from 'react';
-// import axios from 'axios';
-// import BarChart from '../charts/BarChart';
-// import PieChart from '../charts/PieChart';
-// import { Expense, Income } from '../models/models';
-
-
+import { Header } from 'semantic-ui-react';
+import StatsDashboard from '../charts/StatsDashboard';
+// import IncomeListDoughnut from '../charts/IncomeListDoughnut';
 
 const Overview: React.FC = () => {
-
   return (
     <div>
-      <h1>Expense and Income Overview</h1>
+      <Header as="h4">Overview :: Expenses, Incomes Stats & Analytics</Header>
+      <StatsDashboard/>
     </div>
   );
 };

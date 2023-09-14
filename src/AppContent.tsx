@@ -22,10 +22,13 @@ const AppContent: React.FC<AppContentProps> = ({ isAuthenticated }) => {
 
   const isDashboardRoute = location.pathname === "/dashboard";
 
-  // Redirect to /dashboard if isAuthenticated is true and user visits / or /login
-  if (isAuthenticated && (location.pathname === "/" || location.pathname === "/login")) {
-    return <Navigate to="/dashboard" />;
-  }
+  // // Redirect to /dashboard if isAuthenticated is true and user visits / or /login
+  // // if (isAuthenticated && (location.pathname === "/" || location.pathname === "/login")) {
+  // //   return <Navigate to="/dashboard" />;
+  // // }
+  // if (!isAuthenticated) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return (
     <div>
