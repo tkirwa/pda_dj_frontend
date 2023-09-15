@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Progress, Header, List } from "semantic-ui-react";
+import { Progress, Header } from "semantic-ui-react";
 import { API_BASE_URL } from "./api-data-service";
+import ProfilePage from "./ProfilePage";
 
 const apiBaseURL = API_BASE_URL;
 
@@ -39,24 +40,14 @@ const SettingsComponent: React.FC = () => {
         <div>
           <p>Currency Preference {settings.currency_preference}</p>
           <p>Timezone {settings.timezone}</p>
-          <p>User:</p>
-          <List>
-            <List.Item>
-              <List.Content>
-                <List.Header>Username: {settings.user.username}</List.Header>
-                <List.Description>
-                  Email: {settings.user.email}
-                </List.Description>
-                {/* Add more user properties as needed */}
-              </List.Content>
-            </List.Item>
-          </List>
+          <hr/>
+          <ProfilePage/>
         </div>
       ) : (
         <></>
       )}
       {progress < 100 && (
-          <Progress value={progress} className="top attached progress"/>
+        <Progress value={progress} className="top attached progress" />
       )}
     </div>
   );
