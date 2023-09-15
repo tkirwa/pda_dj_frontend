@@ -10,11 +10,12 @@ import AppContent from "./AppContent";
 
   // Check if the authentication token exists in sessionStorage
   const authTokenSessionStorage = sessionStorage.getItem("authToken");
-
+  
   // Use one of the tokens (localStorage takes precedence) if it exists
   const isAuthenticated = !!authTokenLocalStorage || !!authTokenSessionStorage;
 
 const App: React.FC = () => {
+
   return (
     <Router>
       <Container style={{ marginTop: "3em" }}>

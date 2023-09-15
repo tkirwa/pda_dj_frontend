@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Menu } from "semantic-ui-react";
-import { Label, Icon, Button } from "semantic-ui-react";
+import { Label, Icon } from "semantic-ui-react";
 import ExpenseList from "./ExpenseList";
 import IncomeList from "./IncomeList";
 import Overview from "./Overview";
@@ -36,7 +36,7 @@ const Dashboard: React.FC = () => {
       <Menu>
         <Menu.Item header>
           <Icon name="dashboard" />
-          PBA: Dashboard
+          PBA :: Dashboard
         </Menu.Item>
         <Menu.Menu>
           <Menu.Item>
@@ -48,11 +48,11 @@ const Dashboard: React.FC = () => {
               }}
               onClick={handleToggleOverview}
             >
-              {showOverview ? "Overview" : "Show Overview"}
+              {showOverview ? "Analytics Overview" : "Analytics Overview"}
             </Label>
           </Menu.Item>
           <Menu.Item>
-            <Button
+            <Label
               style={{
                 backgroundColor: "#1B67AA",
                 fontWeight: "bold",
@@ -63,14 +63,14 @@ const Dashboard: React.FC = () => {
             >
               {showManage ? (
                 <>
-                  <Icon name="plus" /> Manage
+                  Cash Flow
                 </>
               ) : (
                 <>
-                  <Icon name="plus" /> Manage
+                  Cash Flow
                 </>
               )}
-            </Button>
+            </Label>
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position="right">

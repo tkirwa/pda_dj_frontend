@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Icon, Button, Pagination, Table, Modal, Form } from "semantic-ui-react";
+import { Icon, Button, Pagination, Table } from "semantic-ui-react";
 import Loading from "./Loading";
 import { API_BASE_URL } from "./api-data-service";
+import EditExpenseModal from "../Modals/EditExpenseModal";
 
 interface Expense {
   id: number;
   name: string;
-  category: string | null;
+  category: string | undefined;
   amount: number;
   date: string;
 }
@@ -15,6 +16,10 @@ interface Expense {
 const apiBaseURL = API_BASE_URL;
 
 const ExpenseList: React.FC = () => {
+  // Inside the ExpenseList component
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
+
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -41,19 +46,33 @@ const ExpenseList: React.FC = () => {
     />
   );
 
-  // Open Edit Modal
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
-
+  // Function to open the edit modal
   const openEditExpenseModal = (expense: Expense) => {
     setSelectedExpense(expense);
     setEditModalOpen(true);
   };
 
-  const closeEditModal = () => {
+  // Function to close the edit modal
+  const closeEditExpenseModal = () => {
     setSelectedExpense(null);
     setEditModalOpen(false);
   };
+
+    // Function to update the expenses list when an expense is updated
+    const updateExpensesList = (updatedExpense: any) => {
+      // Find the index of the updated expense in the expenses list
+      const expenseIndex = expenses.findIndex((expense) => expense.id === updatedExpense.id);
+  
+      if (expenseIndex !== -1) {
+        // If the expense is found in the list, update it
+        const updatedExpenses = [...expenses];
+        updatedExpenses[expenseIndex] = updatedExpense;
+        setExpenses(updatedExpenses);
+      }
+  
+      // Close the Edit Expense Modal
+      closeEditExpenseModal();
+    };
 
 
   useEffect(() => {
@@ -112,7 +131,8 @@ const ExpenseList: React.FC = () => {
                 <Table.Cell>
                   <Button
                     style={{ color: "#FFC300" }}
-                    onClick={() => openEditExpenseModal(expense)}>
+                    onClick={() => openEditExpenseModal(expense)}
+                  >
                     <Icon name="edit" />
                   </Button>
                   <Button
@@ -129,41 +149,13 @@ const ExpenseList: React.FC = () => {
           </Table.Body>
         </Table>
       )}
-
-      {/* Edit Expense Modal */}
-      <Modal
-  open={editModalOpen}
-  onClose={closeEditModal}
-  size="tiny"
-  centered={false}
->
-  <Modal.Header>Edit Expense</Modal.Header>
-  <Modal.Content>
-    <Form>
-      {/* Input fields for editing expense details */}
-      <Form.Field>
-        <label>Name</label>
-        <input
-          type="text"
-          value={selectedExpense ? selectedExpense.name : ''}
-          // onChange={(e) => handleNameChange(e.target.value)}
-        />
-      </Form.Field>
-      {/* Add similar fields for other expense details */}
-    </Form>
-  </Modal.Content>
-  <Modal.Actions>
-    <Button color="red" onClick={closeEditModal}>
-      Cancel
-    </Button>
-    <Button color="blue"
-    // onClick={handleSave}
-    >
-      Save
-    </Button>
-  </Modal.Actions>
-</Modal>
-
+      {/* Edit Expense Modal) */}
+      <EditExpenseModal
+        expenseId={selectedExpense?.id || 0} // Pass the selected expense ID
+        isOpen={editModalOpen}
+        onClose={closeEditExpenseModal}
+        onUpdate={updateExpensesList}
+      />
       {paginationControls}
     </>
   );

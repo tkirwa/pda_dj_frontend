@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Icon, Button, Pagination, Table } from 'semantic-ui-react';
-import Loading from './Loading';
-import { API_BASE_URL } from './api-data-service';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Icon, Button, Pagination, Table } from "semantic-ui-react";
+import Loading from "./Loading";
+import { API_BASE_URL } from "./api-data-service";
+import EditIncomeModal from "../Modals/EditIncomeModal";
 
 interface Income {
   id: number;
@@ -14,8 +15,11 @@ interface Income {
 
 const apiBaseURL = API_BASE_URL;
 
-
 const IncomeList: React.FC = () => {
+  // Inside the ExpenseList component
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
+
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,14 +40,43 @@ const IncomeList: React.FC = () => {
     <Pagination
       activePage={currentPage}
       totalPages={totalPages}
-      onPageChange={(e, { activePage }) => handlePageChange(activePage as number)}
+      onPageChange={(e, { activePage }) =>
+        handlePageChange(activePage as number)
+      }
     />
   );
 
+  // Function to open the edit modal
+  const openEditIncomeModal = (income: Income) => {
+    setSelectedIncome(income);
+    setEditModalOpen(true);
+  };
+
+  // Function to close the edit modal
+  const closeEditIncomeModal = () => {
+    setSelectedIncome(null);
+    setEditModalOpen(false);
+  };
+
+      // Function to update the incomes list when an income is updated
+      const updateIncomesList = (updatedIncome: any) => {
+        // Find the index of the updated expense in the incomes list
+        const incomeIndex = incomes.findIndex((income) => income.id === updatedIncome.id);
+    
+        if (incomeIndex !== -1) {
+          // If the income is found in the list, update it
+          const updatedIncomes = [...incomes];
+          updatedIncomes[incomeIndex] = updatedIncome;
+          setIncomes(updatedIncomes);
+        }
+    
+        // Close the Edit Income Modal
+        closeEditIncomeModal();
+      };
 
   useEffect(() => {
     const authToken =
-      localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
 
     axios
       .get<Income[]>(`${apiBaseURL}/api/v1/incomes/`, {
@@ -56,11 +89,10 @@ const IncomeList: React.FC = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching expenses:', error);
+        console.error("Error fetching expenses:", error);
         setIsLoading(false);
       });
   }, []);
-
 
   return (
     <>
@@ -70,7 +102,15 @@ const IncomeList: React.FC = () => {
         <Table inverted color="blue">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell colSpan="4" style={{ backgroundColor: '#1B67AA', color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
+              <Table.HeaderCell
+                colSpan="4"
+                style={{
+                  backgroundColor: "#1B67AA",
+                  color: "white",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
                 Revenue :: Income Sources
               </Table.HeaderCell>
             </Table.Row>
@@ -89,14 +129,15 @@ const IncomeList: React.FC = () => {
                 <Table.Cell>{income.amount}</Table.Cell>
                 <Table.Cell>
                   <Button
-                    style={{ color: '#FFC300' }}
+                    style={{ color: "#FFC300" }}
+                    onClick={() => openEditIncomeModal(income)}
                   >
                     <Icon name="edit" />
                   </Button>
                   <Button
                     style={{
-                      color: '#C70039',
-                      cursor: 'pointer',
+                      color: "#C70039",
+                      cursor: "pointer",
                     }}
                   >
                     <Icon name="trash alternate outline" />
@@ -107,6 +148,14 @@ const IncomeList: React.FC = () => {
           </Table.Body>
         </Table>
       )}
+      {/* Edit Income Modal) */}
+      <EditIncomeModal
+        incomeId={selectedIncome?.id || 0} // Pass the selected income ID
+        isOpen={editModalOpen}
+        onClose={closeEditIncomeModal}
+        onUpdate={updateIncomesList}
+
+      />
       {paginationControls}
     </>
   );
