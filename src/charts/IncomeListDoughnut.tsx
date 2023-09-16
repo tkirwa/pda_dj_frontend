@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { API_BASE_URL } from "../components/api-data-service";
+import { API_BASE_URL } from "../helpers/api-data-service";
 import { Header } from "semantic-ui-react";
 
 interface Income {

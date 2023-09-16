@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Dropdown } from "semantic-ui-react";
 import axios from "axios";
-import { API_BASE_URL } from "../components/api-data-service";
+import { API_BASE_URL } from "../helpers/api-data-service";
 
 interface Expense {
   id: number;

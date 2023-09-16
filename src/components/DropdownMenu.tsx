@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Icon } from "semantic-ui-react";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "./api-data-service";
+import { API_BASE_URL } from "../helpers/api-data-service";
 import axios from "axios";
 
 const apiBaseURL = API_BASE_URL;

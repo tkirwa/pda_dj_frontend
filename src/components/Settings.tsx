@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Progress, Header } from "semantic-ui-react";
-import { API_BASE_URL } from "./api-data-service";
+import { API_BASE_URL } from "../helpers/api-data-service";
 import ProfilePage from "./ProfilePage";
 
 const apiBaseURL = API_BASE_URL;

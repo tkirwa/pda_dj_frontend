@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Icon, Button, Pagination, Table, Modal } from "semantic-ui-react";
 import Loading from "./Loading";
-import { API_BASE_URL } from "./api-data-service";
+import { API_BASE_URL } from "../helpers/api-data-service";
 import EditExpenseModal from "../Modals/EditExpenseModal";
 
 interface Expense {
