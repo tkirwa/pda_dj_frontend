@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 // import React, { useState } from "react";
 import axios from "axios";
 import { Button, Dropdown, Form } from "semantic-ui-react";
-import { API_BASE_URL, formatCurrentDatetime } from "./api-data-service";
+import { API_BASE_URL } from "./api-data-service";
 
 const apiBaseURL = API_BASE_URL;
 
@@ -19,8 +19,8 @@ const AddIncomeForm: React.FC = () => {
     name: "",
     category: "",
     amount: 0,
-    date: formatCurrentDatetime(),
-    // date: new Date().toISOString(),
+    date: new Date().toISOString().substring(0, 10), 
+
   });
   const [incomeCategories, setIncomeCategories] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState("");
@@ -106,7 +106,7 @@ const AddIncomeForm: React.FC = () => {
       <h2>PBA :: Add Income</h2>
       {successMessage ? (
         <p style={{ color: "green" }}>{successMessage}</p>
-      ) : (
+        ) : (
         <p style={{ color: "red" }}>{successMessage}</p>
       )}
       <Form className="ui form">

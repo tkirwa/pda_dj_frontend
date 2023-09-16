@@ -32,7 +32,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({
     name: "",
     category: "",
     amount: 0,
-    date: "",
+    date: new Date().toISOString().substring(0, 10), 
   });
 
   useEffect(() => {
@@ -156,6 +156,7 @@ const EditExpenseModal: React.FC<EditExpenseModalProps> = ({
               name="date"
               value={formData.date}
               onChange={handleInputChange}
+              required
             />
           </Form.Field>
         </Form>

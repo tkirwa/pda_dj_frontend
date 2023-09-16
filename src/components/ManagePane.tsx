@@ -4,7 +4,7 @@ import AddExpenseForm from "./AddExpenseForm"; // Import the AddExpenseForm comp
 import AddIncomeForm from "./AddIncomeForm";
 
 const ManagePane: React.FC = () => {
-  const [showAddExpenseForm, setShowAddExpenseForm] = useState(false);
+  const [showAddExpenseForm, setShowAddExpenseForm] = useState(true);
   const [showAddIncomeForm, setShowAddIncomeForm] = useState(false);
 
   const handleToggleAddExpenseForm = () => {

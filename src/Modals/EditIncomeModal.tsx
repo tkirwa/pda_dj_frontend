@@ -4,12 +4,12 @@ import axios from "axios";
 import { API_BASE_URL } from "../components/api-data-service";
 
 interface Income {
-    id: number;
-    name: string;
-    category: string | undefined;
-    amount: number;
-    date: string;
-  }
+  id: number;
+  name: string;
+  category: string | undefined;
+  amount: number;
+  date: string;
+}
 
 interface EditIncomeModalProps {
   incomeId: number;
@@ -26,21 +26,21 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
   onClose,
   onUpdate,
 }) => {
-
   const [incomeCategories, setIncomeCategories] = useState<string[]>([]);
 
   const [formData, setFormData] = useState<Partial<Income>>({
     name: "",
     category: "",
     amount: 0,
-    date: "",
+    date: new Date().toISOString().split("T")[0], // Format current date as "yyyy-MM-dd"
   });
 
   useEffect(() => {
     if (isOpen) {
       // Fetch the income data for editing
       const authToken =
-        localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+        localStorage.getItem("authToken") ||
+        sessionStorage.getItem("authToken");
 
       axios
         .get<Income>(`${apiBaseURL}/api/v1/incomes/${incomeId}/`, {
@@ -88,27 +88,27 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
     }
   };
 
-    //Load Income categories
-    useEffect(() => {
-      const authToken =
-        localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
-      axios
-        .get<string[]>(`${apiBaseURL}/api/v1/income-categories/`, {
-          headers: {
-            Authorization: `Token ${authToken}`,
-          },
-        })
-        .then((response) => {
-          // Extract category names from the API response
-          const categories = response.data.map(
-            (categoryData: any) => categoryData.name
-          );
-          setIncomeCategories(categories);
-        })
-        .catch((error) => {
-          console.error("Error fetching income categories:", error);
-        });
-    }, []);
+  //Load Income categories
+  useEffect(() => {
+    const authToken =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    axios
+      .get<string[]>(`${apiBaseURL}/api/v1/income-categories/`, {
+        headers: {
+          Authorization: `Token ${authToken}`,
+        },
+      })
+      .then((response) => {
+        // Extract category names from the API response
+        const categories = response.data.map(
+          (categoryData: any) => categoryData.name
+        );
+        setIncomeCategories(categories);
+      })
+      .catch((error) => {
+        console.error("Error fetching income categories:", error);
+      });
+  }, []);
 
   return (
     <Modal open={isOpen} onClose={onClose} closeIcon>
@@ -156,6 +156,7 @@ const EditIncomeModal: React.FC<EditIncomeModalProps> = ({
               name="date"
               value={formData.date}
               onChange={handleInputChange}
+              required
             />
           </Form.Field>
         </Form>

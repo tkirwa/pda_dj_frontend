@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Icon, Button, Pagination, Table } from "semantic-ui-react";
+import { Icon, Button, Pagination, Table, Modal } from "semantic-ui-react";
 import Loading from "./Loading";
 import { API_BASE_URL } from "./api-data-service";
 import EditExpenseModal from "../Modals/EditExpenseModal";
@@ -19,6 +19,9 @@ const ExpenseList: React.FC = () => {
   // Inside the ExpenseList component
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
+
+  // Initialize delete Modal - open & close Modal
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,22 +61,35 @@ const ExpenseList: React.FC = () => {
     setEditModalOpen(false);
   };
 
-    // Function to update the expenses list when an expense is updated
-    const updateExpensesList = (updatedExpense: any) => {
-      // Find the index of the updated expense in the expenses list
-      const expenseIndex = expenses.findIndex((expense) => expense.id === updatedExpense.id);
-  
-      if (expenseIndex !== -1) {
-        // If the expense is found in the list, update it
-        const updatedExpenses = [...expenses];
-        updatedExpenses[expenseIndex] = updatedExpense;
-        setExpenses(updatedExpenses);
-      }
-  
-      // Close the Edit Expense Modal
-      closeEditExpenseModal();
-    };
+  // Function to open the delete modal
+  const openDeleteExpenseModal = (expense: Expense) => {
+    setSelectedExpense(expense);
+    setDeleteModalOpen(true);
+  };
 
+  // Function to close the delete modal
+  const closeDeleteExpenseModal = () => {
+    setSelectedExpense(null);
+    setDeleteModalOpen(false);
+  };
+
+  // Function to update the expenses list when an expense is updated
+  const updateExpensesList = (updatedExpense: any) => {
+    // Find the index of the updated expense in the expenses list
+    const expenseIndex = expenses.findIndex(
+      (expense) => expense.id === updatedExpense.id
+    );
+
+    if (expenseIndex !== -1) {
+      // If the expense is found in the list, update it
+      const updatedExpenses = [...expenses];
+      updatedExpenses[expenseIndex] = updatedExpense;
+      setExpenses(updatedExpenses);
+    }
+
+    // Close the Edit Expense Modal
+    closeEditExpenseModal();
+  };
 
   useEffect(() => {
     const authToken =
@@ -94,6 +110,40 @@ const ExpenseList: React.FC = () => {
         setIsLoading(false);
       });
   }, []);
+
+  // Function to handle expense deletion
+  const handleDeleteExpense = () => {
+    // Perform the delete action (e.g., send a request to the server)
+    // You can use axios or another method to delete the expense
+    // After successful deletion, close the modal and update the expenses list
+    const expenseId = selectedExpense?.id;
+    if (expenseId) {
+      const authToken =
+        localStorage.getItem("authToken") ||
+        sessionStorage.getItem("authToken");
+
+      // Send a delete request with the Authorization header
+      axios
+        .delete(`${apiBaseURL}/api/v1/expenses/${expenseId}`, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        })
+        .then(() => {
+          // Remove the deleted expense from the list
+          const updatedExpenses = expenses.filter(
+            (expense) => expense.id !== expenseId
+          );
+          setExpenses(updatedExpenses);
+          // Close the modal
+          closeDeleteExpenseModal();
+        })
+        .catch((error) => {
+          console.error("Error deleting expense:", error);
+          // Handle error if needed
+        });
+    }
+  };
 
   return (
     <>
@@ -140,6 +190,7 @@ const ExpenseList: React.FC = () => {
                       color: "#C70039",
                       cursor: "pointer",
                     }}
+                    onClick={() => openDeleteExpenseModal(expense)}
                   >
                     <Icon name="trash alternate outline" />
                   </Button>
@@ -156,6 +207,23 @@ const ExpenseList: React.FC = () => {
         onClose={closeEditExpenseModal}
         onUpdate={updateExpensesList}
       />
+      {/* Delete Expense Modal */}
+      <Modal
+        open={deleteModalOpen}
+        onClose={closeDeleteExpenseModal}
+        size="mini"
+      >
+        <Modal.Header>Delete Expense</Modal.Header>
+        <Modal.Content>
+          <p>Are you sure you want to delete this expense?</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color="red" onClick={handleDeleteExpense}>
+            Yes
+          </Button>
+          <Button onClick={closeDeleteExpenseModal}>No</Button>
+        </Modal.Actions>
+      </Modal>
       {paginationControls}
     </>
   );

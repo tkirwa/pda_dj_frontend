@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 // import React, { useState } from "react";
 import axios from "axios";
 import { Button, Dropdown, Form } from "semantic-ui-react";
-import { API_BASE_URL, formatCurrentDatetime } from "./api-data-service";
+import { API_BASE_URL } from "./api-data-service";
+// import { API_BASE_URL, formatCurrentDatetime } from "./api-data-service";
 
 const apiBaseURL = API_BASE_URL;
 
@@ -19,8 +20,7 @@ const AddExpenseForm: React.FC = () => {
     name: "",
     category: "",
     amount: 0,
-    date: formatCurrentDatetime(),
-    // date: new Date().toISOString(),
+    date: new Date().toISOString().substring(0, 10),
   });
   const [expenseCategories, setExpenseCategories] = useState<string[]>([]);
   const [successMessage, setSuccessMessage] = useState("");

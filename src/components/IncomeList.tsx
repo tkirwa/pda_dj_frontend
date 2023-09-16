@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Icon, Button, Pagination, Table } from "semantic-ui-react";
+import { Icon, Button, Pagination, Table, Modal } from "semantic-ui-react";
 import Loading from "./Loading";
 import { API_BASE_URL } from "./api-data-service";
 import EditIncomeModal from "../Modals/EditIncomeModal";
@@ -19,6 +19,9 @@ const IncomeList: React.FC = () => {
   // Inside the ExpenseList component
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedIncome, setSelectedIncome] = useState<Income | null>(null);
+
+  // Initialize delete Modal - open & close Modal
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,21 +61,35 @@ const IncomeList: React.FC = () => {
     setEditModalOpen(false);
   };
 
-      // Function to update the incomes list when an income is updated
-      const updateIncomesList = (updatedIncome: any) => {
-        // Find the index of the updated expense in the incomes list
-        const incomeIndex = incomes.findIndex((income) => income.id === updatedIncome.id);
-    
-        if (incomeIndex !== -1) {
-          // If the income is found in the list, update it
-          const updatedIncomes = [...incomes];
-          updatedIncomes[incomeIndex] = updatedIncome;
-          setIncomes(updatedIncomes);
-        }
-    
-        // Close the Edit Income Modal
-        closeEditIncomeModal();
-      };
+  // Function to open the delete modal
+  const openDeleteIncomeModal = (income: Income) => {
+    setSelectedIncome(income);
+    setDeleteModalOpen(true);
+  };
+
+  // Function to close the delete modal
+  const closeDeleteIncomeModal = () => {
+    setSelectedIncome(null);
+    setDeleteModalOpen(false);
+  };
+
+  // Function to update the incomes list when an income is updated
+  const updateIncomesList = (updatedIncome: any) => {
+    // Find the index of the updated expense in the incomes list
+    const incomeIndex = incomes.findIndex(
+      (income) => income.id === updatedIncome.id
+    );
+
+    if (incomeIndex !== -1) {
+      // If the income is found in the list, update it
+      const updatedIncomes = [...incomes];
+      updatedIncomes[incomeIndex] = updatedIncome;
+      setIncomes(updatedIncomes);
+    }
+
+    // Close the Edit Income Modal
+    closeEditIncomeModal();
+  };
 
   useEffect(() => {
     const authToken =
@@ -93,6 +110,40 @@ const IncomeList: React.FC = () => {
         setIsLoading(false);
       });
   }, []);
+
+  // Function to handle income deletion
+  const handleDeleteIncome = () => {
+    // Perform the delete action (e.g., send a request to the server)
+    // You can use axios or another method to delete the income
+    // After successful deletion, close the modal and update the incomes list
+    const incomeId = selectedIncome?.id;
+    if (incomeId) {
+      const authToken =
+        localStorage.getItem("authToken") ||
+        sessionStorage.getItem("authToken");
+
+      // Send a delete request with the Authorization header
+      axios
+        .delete(`${apiBaseURL}/api/v1/incomes/${incomeId}`, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        })
+        .then(() => {
+          // Remove the deleted income from the list
+          const updatedIncomes = incomes.filter(
+            (income) => income.id !== incomeId
+          );
+          setIncomes(updatedIncomes);
+          // Close the modal
+          closeDeleteIncomeModal();
+        })
+        .catch((error) => {
+          console.error("Error deleting income:", error);
+          // Handle error if needed
+        });
+    }
+  };
 
   return (
     <>
@@ -139,6 +190,7 @@ const IncomeList: React.FC = () => {
                       color: "#C70039",
                       cursor: "pointer",
                     }}
+                    onClick={() => openDeleteIncomeModal(income)}
                   >
                     <Icon name="trash alternate outline" />
                   </Button>
@@ -154,8 +206,24 @@ const IncomeList: React.FC = () => {
         isOpen={editModalOpen}
         onClose={closeEditIncomeModal}
         onUpdate={updateIncomesList}
-
       />
+      {/* Delete Expense Modal */}
+      <Modal
+        open={deleteModalOpen}
+        onClose={closeDeleteIncomeModal}
+        size="mini"
+      >
+        <Modal.Header>Delete Income</Modal.Header>
+        <Modal.Content>
+          <p>Are you sure you want to delete this income?</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color="red" onClick={handleDeleteIncome}>
+            Yes
+          </Button>
+          <Button onClick={closeDeleteIncomeModal}>No</Button>
+        </Modal.Actions>
+      </Modal>
       {paginationControls}
     </>
   );
