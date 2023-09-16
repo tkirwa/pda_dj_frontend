@@ -5,6 +5,19 @@ import axios from "axios";
 // export const API_BASE_URL = 'https://api.realmigo.tech';
 export const API_BASE_URL = 'http://127.0.0.1:8000';
 
+// let API_BASE_URL: string;
+
+// if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+//   // Running on localhost
+//   API_BASE_URL = 'http://127.0.0.1:8000';
+// } else {
+//   // Running on the server
+//   API_BASE_URL = 'https://api.realmigo.tech';
+// }
+
+// export { API_BASE_URL };
+
+
 
 // Fetching expenses categories
 export function fetchExpenseCategories(): Promise<string[]> {

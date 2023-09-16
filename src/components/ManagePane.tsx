@@ -4,7 +4,7 @@ import AddExpenseForm from "./AddExpenseForm"; // Import the AddExpenseForm comp
 import AddIncomeForm from "./AddIncomeForm";
 
 const ManagePane: React.FC = () => {
-  const [showAddExpenseForm, setShowAddExpenseForm] = useState(true);
+  const [showAddExpenseForm, setShowAddExpenseForm] = useState(false);
   const [showAddIncomeForm, setShowAddIncomeForm] = useState(false);
 
   const handleToggleAddExpenseForm = () => {
@@ -20,7 +20,7 @@ const ManagePane: React.FC = () => {
   return (
     <Container
       style={{
-        backgroundColor: "#ccc",
+        backgroundColor: "#b9cbd4",
         borderRadius: "5px",
         margin: "1.2em 0 1.2em 0",
       }}
