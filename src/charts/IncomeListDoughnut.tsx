@@ -3,6 +3,7 @@ import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { API_BASE_URL } from "../components/api-data-service";
+import { Header } from "semantic-ui-react";
 
 interface Income {
   id: number;
@@ -14,19 +15,22 @@ interface Income {
 ChartJS.register(ArcElement, Tooltip, Legend);
 const apiBaseURL = API_BASE_URL;
 
-
 const IncomeListDoughnut: React.FC = () => {
   const [incomeData, setIncomeData] = useState<Income[]>([]);
+  const [totalIncomeAmount, setTotalIncomeAmount] = useState<number>(0); // Initialize as zero
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    const authToken =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+
     const fetchIncomeData = async () => {
       try {
         const response = await axios.get<Income[]>(
           `${apiBaseURL}/api/v1/incomes/`,
           {
             headers: {
-              Authorization: `Token ${authToken}`,            },
+              Authorization: `Token ${authToken}`,
+            },
           }
         );
         setIncomeData(response.data);
@@ -37,6 +41,16 @@ const IncomeListDoughnut: React.FC = () => {
 
     fetchIncomeData();
   }, []);
+
+  useEffect(() => {
+    // Calculate total incomes when incomeData changes
+    const totalAmount = incomeData.reduce((total, income) => {
+      const amount = parseFloat(income.amount) || 0;
+      return total + amount;
+    }, 0);
+
+    setTotalIncomeAmount(totalAmount);
+  }, [incomeData]);
 
   // Calculate total incomes by category
   const categoryIncomes: { [key: string]: number } = {};
@@ -75,6 +89,9 @@ const IncomeListDoughnut: React.FC = () => {
 
   return (
     <div>
+      <Header as="h4" textAlign="center">
+      <p>Total Expenses: KES {totalIncomeAmount.toFixed(2)}</p>
+      </Header>
       <Doughnut data={data} />
     </div>
   );

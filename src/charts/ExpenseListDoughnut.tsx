@@ -3,6 +3,7 @@ import axios from "axios";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { API_BASE_URL } from "../components/api-data-service";
+import { Header } from "semantic-ui-react";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -13,39 +14,51 @@ interface Expense {
   amount: string; // Use string type for amount based on the API response
 }
 
-
 const apiBaseURL = API_BASE_URL;
 
 const ExpenseListDoughnut: React.FC = () => {
   const [expenseData, setExpenseData] = useState<Expense[]>([]);
+  const [totalExpenseAmount, setTotalExpenseAmount] = useState<number>(0); // Initialize as zero
 
   useEffect(() => {
-    const authToken = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+    const authToken =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+
     const fetchExpenseData = async () => {
       try {
         const response = await axios.get<Expense[]>(
-
           `${apiBaseURL}/api/v1/expenses/`,
           {
             headers: {
-              Authorization: `Token ${authToken}`,            },
+              Authorization: `Token ${authToken}`,
+            },
           }
         );
         setExpenseData(response.data);
       } catch (error) {
-        console.error("Error fetching income data:", error);
+        console.error("Error fetching expense data:", error);
       }
     };
 
     fetchExpenseData();
   }, []);
 
-  // Calculate total incomes by category
+  useEffect(() => {
+    // Calculate total expenses when expenseData changes
+    const totalAmount = expenseData.reduce((total, expense) => {
+      const amount = parseFloat(expense.amount) || 0;
+      return total + amount;
+    }, 0);
+
+    setTotalExpenseAmount(totalAmount);
+  }, [expenseData]);
+
+  // Calculate total expenses by category
   const categoryExpenses: { [key: string]: number } = {};
 
   expenseData.forEach((expense) => {
     const category = expense.category || "Uncategorized";
-    const amount = parseFloat(expense.amount); // Convert amount to a float
+    const amount = parseFloat(expense.amount) || 0; // Convert amount to a float
 
     if (!categoryExpenses[category]) {
       categoryExpenses[category] = 0;
@@ -77,6 +90,9 @@ const ExpenseListDoughnut: React.FC = () => {
 
   return (
     <div>
+      <Header as="h4" textAlign="center">
+        <p>Total Expenses: KES {totalExpenseAmount.toFixed(2)}</p>
+      </Header>
       <Doughnut data={data} />
     </div>
   );

@@ -6,7 +6,7 @@ import StatsDashboard from '../charts/StatsDashboard';
 const Overview: React.FC = () => {
   return (
     <div>
-      <Header as="h4">Overview :: Expenses, Incomes Stats & Analytics</Header>
+      <Header as="h3" textAlign="center">Overview :: Expenses, Incomes Stats & Analytics</Header>
       <StatsDashboard/>
     </div>
   );

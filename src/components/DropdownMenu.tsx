@@ -6,6 +6,14 @@ import axios from "axios";
 
 const apiBaseURL = API_BASE_URL;
 
+
+interface UserData {
+  user: {
+    username: string;
+  };
+  // Add other properties as needed from your API response
+}
+
 const authTokenLocalStorage = localStorage.getItem("authToken");
 const authTokenSessionStorage = sessionStorage.getItem("authToken");
 
@@ -17,7 +25,9 @@ const DropdownTriggerMenu: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     isAuthenticatedInitially
   );
-  // const [username, setUsername] = useState("");
+  // const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState<UserData | null>(null);
+
 
   const trigger = (
     <span>
@@ -50,7 +60,8 @@ const DropdownTriggerMenu: React.FC = () => {
 
       // Handle the logout response here, e.g., clearing the token from storage
       if (response.status === 204 || !authToken) {
-        console.log("Server logout sucdessful");
+        console.log("Server logout successful");
+        setIsAuthenticated(false);
       }
 
       // Clear the token from localStorage and/or sessionStorage
@@ -88,18 +99,45 @@ const DropdownTriggerMenu: React.FC = () => {
     }
   }, [isAuthenticated, navigate]);
 
+  useEffect(() => {
+    // Replace 'YOUR_AUTH_TOKEN' with the actual authentication token
+    const authToken =
+      localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+
+    // Define the headers with the authentication token
+    const headers = {
+      Authorization: `Token ${authToken}`,
+    };
+
+    // Make an API request to fetch user settings with the token header
+    axios
+      .get(apiBaseURL + "/api/v1/settings/", { headers })
+      .then((response) => {
+        // Assuming the API response is an array of settings, and you have only one settings object
+        setUserData(response.data[0]);
+      })
+      .catch((error) => {
+        console.error("Error fetching settings:", error);
+      });
+  }, []);
+
   const options = [
     {
       key: "user",
       text: (
         <span>
-          Signed in as <strong>Bob Smith</strong>
+          {userData ? (
+            <span>Hello, {userData.user.username}</span>
+          ) : (
+            // Display a loading indicator or a placeholder while fetching data
+            <span>Loading...</span>
+          )}
         </span>
       ),
       disabled: true,
     },
-    { key: "profile", text: "Profile" },
-    { key: "settings", text: "Settings" },
+    // { key: "profile", text: "Profile" },
+    // { key: "settings", text: "Settings" },
     { key: "sign-out", text: "Sign Out", onClick: handleLogout },
   ];
 
