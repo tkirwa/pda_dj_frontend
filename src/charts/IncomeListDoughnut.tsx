@@ -90,7 +90,7 @@ const IncomeListDoughnut: React.FC = () => {
   return (
     <div>
       <Header as="h4" textAlign="center">
-      <p>Total Expenses: KES {totalIncomeAmount.toFixed(2)}</p>
+      <p>Total Incomes: KES {totalIncomeAmount.toFixed(2)}</p>
       </Header>
       <Doughnut data={data} />
     </div>
