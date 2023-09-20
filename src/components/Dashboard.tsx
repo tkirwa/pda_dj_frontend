@@ -7,6 +7,7 @@ import SettingsComponent from "./Settings";
 import ManagePane from "./ManagePane";
 import CashFlowBoard from "./CashFlowBoard";
 import { useNavigate } from "react-router-dom";
+import FooterBoard from "./FooterBoard";
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -129,6 +130,7 @@ const Dashboard: React.FC = () => {
             {showSettings && <SettingsComponent />}
             {showManage && <ManagePane />}
             {showCashFlowBoard && <CashFlowBoard />}
+            <FooterBoard/>
           </div>
         )}
       </div>
